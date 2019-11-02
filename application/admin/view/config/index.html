@@ -1,0 +1,145 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" value="{$config.title}" autocomplete="off" placeholder="请输入网站标题" class="layui-input">
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">APPID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="appid" value="{$config.appid}" autocomplete="off" placeholder="请输入APPID" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">AppSecret</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="appsecret" value="{$config.appsecret}" autocomplete="off" placeholder="请输入AppSecret" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Mch_id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mchid" value="{$config.mchid}" autocomplete="off" placeholder="请输入商户号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">KEY</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="key" value="{$config.key}" autocomplete="off" placeholder="请输入支付KEY" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">签到积分</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sign_point" value="{$config.sign_point}"  autocomplete="off" placeholder="请输入用户每天签到可获得积分值" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">推荐积分</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="reco_point" value="{$config.reco_point}" autocomplete="off" placeholder="请输入会员推荐好友加入获得积分值" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邀请人数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="friend_num" value="{$config.friend_num}" autocomplete="off" placeholder="请输入邀请人数" class="layui-input">
+                    </div>
+                </div>
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">邀请奖励</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="friend_money" value="{$config.friend_money}" autocomplete="off" placeholder="请输入邀请好友奖励的金额" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分享标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="share_title" value="{$config.share_title}" autocomplete="off" placeholder="分享标题" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分享图片</label>
+                    <div class="layui-input-block layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal file" id="test1"><i class="layui-icon"></i>上传图片</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file" id="test1s">
+                        <span class="layui-inline layui-upload-choose">支持 png、jpg、jpeg 格式文件</span>
+                    </div>
+                    <div class="layui-input-block" style="margin-top:5px">
+                        <img style="width:70px" id="img" src="{$config.share_pic}" alt="">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">公共内容</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入公共内容" lay-verify="required" name="pub_content" class="layui-textarea edit">{$config.pub_content}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <!-- <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />
+<script>
+    //表单上传
+    fromUpload('form',"{:url('Config/index')}",function(data){
+        if(data.code == 200){
+            layer.msg(data.msg,{time:1500});
+        } else {
+            layer.msg(data.msg,{time:3000});
+        }
+    });
+
+    //图片阅览
+    $('#test1').click(function(){
+        $('#test1s').click();
+    })
+    $('#test1s').change(function(e){
+        var imgBox = e.target;
+        var img = getObjectURL(imgBox.files[0]);
+        $('#img').attr('src',img);
+    });
+
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
+    $('.edit').editable({
+        inlineMode: false, 
+        alwaysBlank: true,
+        language: "zh_cn",
+        imageUploadURL:"{:url('common/fileUpload')}"
+    }) 
+</script>

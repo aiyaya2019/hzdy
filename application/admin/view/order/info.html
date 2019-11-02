@@ -1,0 +1,130 @@
+<include file='common/meta' />
+<style>
+    .hr-line-dashed{border-top:1px dashed #e7eaec;color:#fff;background-color:#fff;height:1px;margin:20px 0}
+</style>
+<div class="layui-fluid layadmin-homepage-fluid">
+    <div class="layui-row layui-col-space8">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        订单信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">订单编号：{$data.order_no}</div>
+                            <div class="layui-col-sm2">订单状态：{$data.status_name}</div>
+                            <div class="layui-col-sm2">下单时间：{$data.add_time}</div>
+                            <div class="layui-col-sm2">支付时间：{$data.pay_at}</div>
+                            <div class="layui-col-sm2">发货时间：{$data.logistics_time|date="Y-m-d H:i:s", ###}</div>
+                            <div class="layui-col-sm2">应付金额：&yen; {$data.order_price|default='0'}</div>
+                            <div class="layui-col-sm2">实付金额：&yen; {$data.pay_money|default='0'}</div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">快递公司：{$data.logistics_name|default='待发货'}</div>
+                            <div class="layui-col-sm2">快递单号：{$data.logistics_no|default='待发货'}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card">
+                        <table class="layui-table" lay-skin="line" style="margin:0">
+                            <thead>
+                            <tr>
+                                <td>砍价商品</td>
+                                <td>商品单价</td>
+                                <td>购买数量</td>
+                                <td>总金额</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="$data.goods" item="vo">
+                                <tr>
+                                    <td style="display:flex;align-items: center;">
+                                        <div>
+                                            <img style="width:100px" src="{$vo.goods_pic}" alt="">
+                                        </div>
+                                        <div>
+                                            <span style="margin-left:1.5rem">{$vo.goods_title}</span>
+                                        </div>
+                                    </td>
+                                    <td>&yen; {$vo.goods_price}</td>
+                                    <td>{$vo.number}</td>
+                                    <td style="color:#f00">&yen; {$vo.goods_price * $vo.number}</td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        会员信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">会员ID：{$data.number}</div>
+                            <div class="layui-col-sm2">会员昵称：{$data.nickname}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        收货信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">收货人：{$data.username}</div>
+                            <div class="layui-col-sm2">联系电话：{$data.userphone}</div>
+                            <div class="layui-col-sm2">省市区：{$data.province} {$data.city} {$data.area}</div>
+                            <div class="layui-col-sm2">详细地址：{$data.address}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form " lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        其他信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div style="display: flex;">
+                            <div class="layui-card-body layuiadmin-card-list">
+                                <p>用户留言：{$data.remark|default=''}</p>
+                                <if condition="$data.cancel_state eq 1">
+                                    <p>取消原因：<mdall>{$data.cancel_desc|default=''}</mdall></p>
+                                    <p>取消时间：<mdall>{$data.cancel_at|default=''}</mdall></p>
+                                <elseif condition="$data.refund_state neq 0"/>
+                                    <p>退款状态：<mdall>{$data.refund_state|default=''}</mdall></p>
+                                    <p>退款申请时间：<mdall>{$data.refund_at|default=''}</mdall></p>
+                                </if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />

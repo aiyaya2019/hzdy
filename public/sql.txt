@@ -1,0 +1,1 @@
+UPDATE `z_goods`  SET `pay_num`=`pay_num`+1  WHERE  `id` = 1

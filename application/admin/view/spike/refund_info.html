@@ -1,0 +1,132 @@
+<include file='common/meta' />
+<style>
+    .hr-line-dashed{border-top:1px dashed #e7eaec;color:#fff;background-color:#fff;height:1px;margin:20px 0}
+</style>
+<div class="layui-fluid layadmin-homepage-fluid">
+    <div class="layui-row layui-col-space8">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        订单信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">订单编号：{$data.order.order_sn}</div>
+                            <div class="layui-col-sm2">退款编号：{$data.order_sn}</div>
+                            <div class="layui-col-sm2">申请状态：{$data.status_name}</div>
+                            <div class="layui-col-sm2">支付方式：{$data.pay_type_name}</div>
+                            <div class="layui-col-sm2">申请时间：{$data.add_time}</div>
+
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">快递公司：{$data.order.logistics_name|default='待发货'}</div>
+                            <div class="layui-col-sm2">快递单号：{$data.order.logistics_no|default='待发货'}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card">
+                        <table class="layui-table" lay-skin="line" style="margin:0">
+                            <thead>
+                            <tr>
+                                <td>商品信息</td>
+                                <td>订单金额</td>
+                                <td>实付金额</td>
+                                <td>订单运费</td>
+                                <td>用户申请金额</td>
+                                <td>实际退款金额</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="display:flex;align-items: center;">
+                                    <div>
+                                        <img style="width:100px" src="{$data.goods_pic}" alt="">
+                                    </div>
+                                    <div>
+                                        <span style="margin-left:1.5rem">{$data.goods_title}</span>
+                                    </div>
+                                </td>
+                                <td>&yen; {$data.order.order_price}</td>
+                                <td>&yen; {$data.order.pay_money}</td>
+                                <td>&yen; {$data.order.fare_price}</td>
+                                <td>&yen; {$data.money}</td>
+                                <td>
+                                <if condition="$data.money neq 0">
+                                &yen; {$data.money}
+                                <else />
+                                &yen; {$data.goods_price}
+                                </if>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        收货信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div class=" layui-fluid" style="display: flex;height: 100%">
+                            <div class="layui-col-sm2">收货人：{$data.order.name}</div>
+                            <div class="layui-col-sm2">联系电话：{$data.order.tel}</div>
+                            <div class="layui-col-sm2">详细地址：{$data.order.address}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form " lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        其他信息
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div style="display: flex;">
+                            <div class="layui-card-body layuiadmin-card-list">
+                                <p>用户留言：{$data.msg|default=''}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="layui-form " lay-filter="layuiadmin-form-admin">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm6 layui-col-md12">
+                    <div class="layui-card-header" style="background-color: #f2f2f2;border: 1px solid #e6e6e6">
+                        退款凭证
+                    </div>
+                    <div class="layui-card layui-fluid">
+                        <div style="display: flex;">
+                            <foreach name="data.many_pic" item="vo">
+                             <img style="width:100px;margin-left: 10px" src="{$vo}" alt="">
+                            </foreach>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div class="layui-form-item" style="text-align: right">
+            <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />

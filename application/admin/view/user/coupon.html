@@ -1,0 +1,62 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">持有的优惠券</div>
+
+              
+
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-autowidth"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table','form'],function(){
+        var table = layui.table;
+        var form = layui.form;
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+            field.page = 1;
+            //执行重载
+            table.reload('test-table-autowidth', {
+                where: field
+            });
+        });
+
+        table.render({
+            elem: '#test-table-autowidth',
+            url:"{:url('User/coupon')}",
+            method:'post',
+            response:{
+                statusCode:200
+            },
+            page:{
+                layout:['prev','page','next','skip','count']
+            },
+            where:{id:"{:input('id')}"},
+            limit:20,
+            cols:[[
+                {field:'id',title:'编号',width:'7%'},
+               {title:'活动信息',templet:function(d){
+                   return '满 ￥'+d.full_price+'元 减 ￥'+d.less_price+'元';
+               }},
+                {title:'状态',templet:function(d){
+                   if(d.status == 1){
+                       return '<button class="layui-btn layui-btn-sm odd" table="discount" key="status" val="2" data-id="'+d.id+'">未使用</button>';
+                   } else {
+                       return '<button class="layui-btn layui-btn-sm layui-btn-danger odd" table="discount" key="status" val="1" data-id="'+d.id+'">已使用</button>';
+                   }
+               }},
+                {field:'add_time',title:'领取时间'},
+                {field:'day_time',title:'到期时间'},
+            ]]
+        })
+    })
+</script>

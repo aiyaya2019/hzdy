@@ -1,0 +1,122 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="id" id="goods_id" value="{:input('id')}">
+
+
+                <!-- 1发给全部用户；2发给个人；3发给特定等级 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发送对象</label>
+                    <div class="layui-input-block">
+                    <input type="radio" name="type" value="1" title="发给全部用户" lay-filter="send-type" <if condition="$list['type'] eq 1">checked</if> >
+                    <input type="radio" name="type" value="2" title="发给个人" lay-filter="send-type" <if condition="$list['type'] eq 2">checked</if> >
+                    <input type="radio" name="type" value="3" title="发给特定等级" lay-filter="send-type" <if condition="$list['type'] eq 3">checked</if> >
+                    </div>
+                </div>
+
+                <div class="layui-form-item user-div hid-div">
+                    <label class="layui-form-label">用户</label>
+                    <div class="layui-input-block">
+                        <select name="uid" id="" lay-search>
+                            <option value="">用户</option>
+                            <foreach name="user" item="vo">
+                                <option value="{$vo.id}" <if condition="$list.uid eq $vo.id">selected</if> >{$vo.nickname}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item grade-div hid-div">
+                    <label class="layui-form-label">等级</label>
+                    <div class="layui-input-block">
+                        <select name="grade_id" id="" lay-search>
+                            <option value="">请选择等级</option>
+                            <foreach name="grade" item="vo">
+                                <option value="{$vo.id}" <if condition="$list.grade_id eq $vo.id">selected</if> >{$vo.title}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" value="{$list.title}" lay-verify="required" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div> 
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">短信内容</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入" lay-verify="required" name="content" class="layui-textarea edit">{$list.content}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .hid-div{display:none;}
+</style>
+
+<script type="text/javascript">
+    $(function(){
+        var type = "{$list.type}";
+        if (type == '2') {
+            $('.user-div').removeClass('hid-div');
+        }
+        if (type == '3') {
+            $('.grade-div').removeClass('hid-div');
+        }
+    })
+</script>
+
+<script>
+    layui.use(['upload','laydate','form','element'],function(){
+        var upload = layui.upload;
+        var form = layui.form;
+        var element = layui.element;
+
+        form.on('radio(send-type)', function(data){
+            // console.log(data.elem); //得到radio原始DOM对象
+            console.log(data.value); //被点击的radio的value值
+            if (data.value == '2') {
+                $('.user-div').removeClass('hid-div');
+                $('.grade-div').addClass('hid-div');
+            }else if(data.value == '3'){
+                $('.grade-div').removeClass('hid-div');
+                $('.user-div').addClass('hid-div');
+            }else{
+                $('.user-div').addClass('hid-div');
+                $('.grade-div').addClass('hid-div');
+            }
+        }); 
+        //封面上传
+        upload.render({
+            elem: '#test1',
+            auto: false,
+            field:'pic',
+            //,multiple: true
+            bindAction: '#test1s',
+            done: function(res){
+              console.log(res)
+            }
+        });
+
+    });
+    //表单上传
+    fromUpload('form',"{:url('User/msg_save')}");
+</script>

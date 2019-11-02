@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>领取奖品</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/style.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/mask.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/receive.css">
+	<link rel="stylesheet" type="text/css" href="__LAYUI__/layui/css/layui.css">
+	<style>
+		.index{
+			position: fixed;
+			bottom:8%;
+			right:5%;
+			background:#e21527;
+			width:2.2rem;
+			height:2.2rem;
+			line-height:2.2rem;
+			text-align:center;
+			border-radius:100%;
+		}
+		.index a{font-size:14px;}
+	</style>
+</head>
+<body>
+	<div class="center">
+		<div class="pic">
+			<img src="{$goods.pic}" alt="">
+		</div>
+		<div class="happy"><img src="__HOME_IMG__/happy.png" alt=""></div>
+		<div class="form">
+			<h2>信息填写</h2>
+			<ul class="info">
+				<li>
+					<lable>姓名</lable>
+					<div class="form_item">
+						<input type="text" name="name" id="name" placeholder="请输入姓名">
+					</div>
+				</li>
+				<li>
+					<lable>电话</lable>
+					<div class="form_item">
+						<input type="text" name="tel" id="tel" placeholder="请输入电话号码">
+					</div>
+				</li>
+				<li>
+					<lable>地址</lable>
+					<div class="form_item">
+						<input type="text" name="address" id="address" placeholder="请输入收货地址">
+					</div>
+				</li>
+				<input type="hidden" id="clicks" value="true">
+			</ul>
+		<if condition="$goods.stock gt 0">
+			<div class="up stock">提交</div>
+		<else/>
+			<div class="up" onclick="alert('物品已经被抢光了，每天早上11点添加库存，敬请留意！')">提交</div>
+		</if>
+			<p class="tips">*礼物将于活动结束的30个工作日内发放，请认真检查信息是否填写无误，否则将影响礼品的派送。</p>
+		</div>
+		<div class="ad"><img src="__HOME_IMG__/sd.png" alt=""></div>
+	</div>
+
+	<!-- //返回首页 -->
+	<div class="index"><a href="{:url('index/index')}" style="color:#fff">首页</a></div>
+
+	<!-- 领取成功弹窗 -->
+	<div class="mask success" style="display: none">
+		<div style="position: relative;width:75%;margin:0 auto;text-align:center;">
+			<p><img class="weix" src="__HOME_IMG__/success.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt="" style="top:2%;right:2%"></p>
+			<div class="share luck">让好友也领取奖品</div>
+		</div>
+	</div>
+	
+	<!-- 分享弹窗 -->
+	<div class="mask shares del" style="display: none">
+		<div style="position: absolute;top:3%;right:12%;text-align:right">
+			<p><img class="weix" src="__HOME_IMG__/share.png" alt="" style="width:60%"></p>
+			<p><img class="weix" src="{$goods.share_pic}" alt="" style="width:70%;margin-right:23%;margin-top:-1%"></p>
+		</div>
+	</div>
+
+</body>
+<script src="__LAYUI__/layui/layui.js"></script>
+<script src="__HOME_JS__/jquery.js"></script>
+<script src="__LAYUI__/common.js"></script>
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId: "{$share.APPID}", // 必填，公众号的唯一标识
+	    timestamp: "{$share.time}", // 必填，生成签名的时间戳
+	    nonceStr: "{$share.nonceStr}", // 必填，生成签名的随机串
+	    signature: "{$share.sign}",// 必填，签名
+	    jsApiList: [
+	    	'updateAppMessageShareData',
+	    	'updateTimelineShareData',
+	    	'onMenuShareTimeline',
+	    	'onMenuShareAppMessage'
+	    ] // 必填，需要使用的JS接口列表
+	});
+	wx.ready(function(){
+		wx.updateAppMessageShareData({ 
+	        title: "{$share.title}", // 分享标题
+	        desc: "{$share.text}", // 分享描述
+	        link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	        imgUrl: "{$share.imgUrl}", // 分享图标
+	        success: function () {
+	          // 设置成功
+	        }
+		}),
+		wx.updateTimelineShareData({ 
+	        title: "{$share.title}", // 分享标题
+	        link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	        imgUrl: "{$share.imgUrl}", // 分享图标
+	        success: function () {
+	          // 设置成功
+	        }
+		}),
+		wx.onMenuShareTimeline({
+			title: "{$share.title}", // 分享标题
+			link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: "{$share.imgUrl}", // 分享图标
+		    success: function () {
+
+		    }
+		}),
+		wx.onMenuShareAppMessage({
+			title: "{$share.title}", // 分享标题
+			desc: "{$share.text}", // 分享描述
+			link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: "{$share.imgUrl}", // 分享图标
+			type: 'link', // 分享类型,music、video或link，不填默认为link
+			dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			success: function () {
+			// 用户点击了分享后执行的回调函数
+			}
+		})
+	});
+</script>
+<script>
+	//分享弹窗
+	$('.luck').click(function(){
+		$('.mask').hide();
+		$('.shares').show();
+	})
+
+	//领取成功弹窗
+	$('.stock').click(function(){
+		var clicks = $('#clicks').val();
+		if(clicks == false){ return; }
+		$('#clicks').val('false');
+		var url = "{:url('index/receive')}";
+		var data = {
+			part_id:"{$part_id}",
+			name:$('#name').val(),
+			tel:$('#tel').val(),
+			address:$('#address').val(),
+		};
+		get_request(url,data,function(data){
+			if(data.code == 200){
+				$('.success').show();
+			} else {
+				alert(data.msg);
+			}
+			$('#clicks').val('true');
+		});
+	})
+
+	//隐藏弹窗
+	$('.del').click(function(){
+		$('.mask').hide();
+	})
+
+
+	$("input").blur(function(){
+	    setTimeout(() => {
+	        const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+	        window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+	    }, 100);
+	})
+</script>
+</html>

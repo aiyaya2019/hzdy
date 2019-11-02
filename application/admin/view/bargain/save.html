@@ -1,0 +1,123 @@
+<include file='common/meta' />
+<style>
+    .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;border:1px solid #eee;}
+    .spec{float:right;width:80%;margin: 0 5px 10px 3px}
+    .remove{width:4% !important;margin:10px 0 0 0;color:#FF5722;cursor:pointer;}
+    .removes{color:#FF5722;cursor:pointer;}
+    .layui-input-inline{margin-right:2px !important;}
+    .layui-unselect{float:left;}
+    .pane{width:13% !important;}
+</style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="id" id="goods_id" value="{:input('id')}">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" value="{$goods.title}" lay-verify="required" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品封面</label>
+                    <div class="layui-input-block layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal file" id="test1"><i class="layui-icon"></i>上传封面</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file" id="test1s">
+                        <span class="layui-inline layui-upload-choose">支持 png、jpg、jpeg 格式文件</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">价格</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="price" value="{$goods.price}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">市场价格</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="old_price" value="{$goods.old_price}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">最低金额</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="min_price" value="{$goods.min_price}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        <span class="layui-inline layui-upload-choose">商品最低可以砍至的金额</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单次最低砍</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="min_money" value="{$goods.min_money|default='0'}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        <span class="layui-inline layui-upload-choose">商品单次最低可以砍至的金额</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单次最高砍</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="max_money" value="{$goods.max_money|default='0'}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        <span class="layui-inline layui-upload-choose">商品单次最高可以砍至的金额</span>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">砍价时长</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="hour" value="{$goods.hour}" required="" lay-verify="required|number" placeholder="小时" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="minute" value="{$goods.minute}" required="" lay-verify="required|number" placeholder="分钟" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">用户开始砍价后，可以砍多长时间</div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />
+<script>
+    layui.use(['upload','laydate','form','element'],function(){
+        var upload = layui.upload;
+        var form = layui.form;
+        var element = layui.element;
+
+        //封面上传
+        upload.render({
+            elem: '#test1',
+            auto: false,
+            field:'pic',
+            //,multiple: true
+            bindAction: '#test1s',
+            done: function(res){
+              console.log(res)
+            }
+        });
+    });
+
+    //表单上传
+    fromUpload('form',"{:url('Bargain/save')}");
+
+    $('.edit').editable({
+        inlineMode: false, 
+        alwaysBlank: true,
+        language: "zh_cn",
+        imageUploadURL:"{:url('common/fileUpload')}"
+    }) 
+</script>

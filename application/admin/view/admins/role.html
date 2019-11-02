@@ -1,0 +1,88 @@
+<!-- 引入头部 -->
+<include file='common/meta' />
+
+<div class="layadmin-tabsbody-item layui-show">
+	<div class="layui-card layadmin-header">
+	 	<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+            <a lay-href="">主页</a>
+            <span lay-separator="">/</span>
+            <a><cite>后台管理</cite></a>
+            <span lay-separator="">/</span>
+            <a><cite>角色管理</cite></a>
+        </div>
+	</div>
+	<div class="layui-fluid">   
+		<div class="layui-card">
+		    <div class="layui-card-body">
+		    	<div style="padding-bottom: 10px;">
+		        	<a class="layui-btn layuiadmin-btn-role" href="{:url('admins/addRole')}" data-type="add">添加</a>
+		      	</div>
+		    
+		      	<table class="layui-table" lay-even="" lay-skin="nob">
+                    <colgroup>
+                        <col width="150">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>角色名称</td>
+                            <td>角色描述</td>
+                            <td>添加时间</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="role" item="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.desc}</td>
+                            <td>{$vo.addtime|date='Y-m-d H:i',###}</td>
+                            <td>
+                                <a class="layui-btn layui-btn-set layui-btn-xs" href="{:url('admins/access',array('id'=>$vo['id']))}" lay-event="edit">
+                                	<i class="layui-icon layui-icon-set"></i>配置权限
+                                </a>
+                                <a class="layui-btn layui-btn-normal layui-btn-xs" href="{:url('admins/addRole',array('id'=>$vo['id']))}" lay-event="edit">
+                                	<i class="layui-icon layui-icon-edit"></i>编辑
+                                </a>
+		        				<a onclick="del({$vo.id})" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+		        					<i class="layui-icon layui-icon-delete"></i>删除
+		        				</a>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+		    </div>
+	 	</div>
+	</div>
+</div>
+
+<script>
+	function del(id) {
+        layer.confirm('是否删除', {icon: 3, title:'是否删除'}, function(index) {
+            $.ajax({
+                type:'post',
+                url:"{:url('Admins/deleRole')}",
+                data:{
+                    id:id
+                },
+                dataType:'json',
+                success:function(data){
+                    if(data.code == 200){
+                        layer.msg(data.msg, {icon: 1, time: 1000},function(){
+                        	window.history.go(-1);
+                        });
+                    } else {
+                    	layer.msg(data.msg, {icon: 2, time: 3000})
+                    }
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试', {icon: 2, time: 2000});
+                }
+            })
+        });
+    }
+</script>

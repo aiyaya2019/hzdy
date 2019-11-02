@@ -1,0 +1,80 @@
+Array
+(
+    [appid] => wx2f38d5d5d170064b
+    [bank_type] => CFT
+    [cash_fee] => 1
+    [fee_type] => CNY
+    [is_subscribe] => N
+    [mch_id] => 1511253371
+    [nonce_str] => vi1yvg9d28n1v3xv17mmcz8enui8uy0o
+    [openid] => orJ6Z5WsDIrkPmictUiilizk3L1w
+    [out_trade_no] => 201910301608497019
+    [result_code] => SUCCESS
+    [return_code] => SUCCESS
+    [sign] => D9569C945127CBD5F1D42B61F586BF80
+    [time_end] => 20191030160901
+    [total_fee] => 1
+    [trade_type] => JSAPI
+    [transaction_id] => 4200000402201910304006846983
+)
+
+Array
+(
+    [appid] => wx2f38d5d5d170064b
+    [bank_type] => CFT
+    [cash_fee] => 1
+    [fee_type] => CNY
+    [is_subscribe] => N
+    [mch_id] => 1511253371
+    [nonce_str] => vi1yvg9d28n1v3xv17mmcz8enui8uy0o
+    [openid] => orJ6Z5WsDIrkPmictUiilizk3L1w
+    [out_trade_no] => 201910301608497019
+    [result_code] => SUCCESS
+    [return_code] => SUCCESS
+    [sign] => D9569C945127CBD5F1D42B61F586BF80
+    [time_end] => 20191030160901
+    [total_fee] => 1
+    [trade_type] => JSAPI
+    [transaction_id] => 4200000402201910304006846983
+)
+
+Array
+(
+    [appid] => wx2f38d5d5d170064b
+    [bank_type] => CFT
+    [cash_fee] => 1
+    [fee_type] => CNY
+    [is_subscribe] => N
+    [mch_id] => 1511253371
+    [nonce_str] => dlyp1jgr4p0pa8bjzl0n54fd1ha80ts3
+    [openid] => orJ6Z5WsDIrkPmictUiilizk3L1w
+    [out_trade_no] => 201910301618181523
+    [result_code] => SUCCESS
+    [return_code] => SUCCESS
+    [sign] => 2FC85C2287C7A7A46BCCAB5E96A1D3B7
+    [time_end] => 20191030161819
+    [total_fee] => 1
+    [trade_type] => JSAPI
+    [transaction_id] => 4200000405201910303350627084
+)
+
+Array
+(
+    [appid] => wx2f38d5d5d170064b
+    [bank_type] => CFT
+    [cash_fee] => 1
+    [fee_type] => CNY
+    [is_subscribe] => N
+    [mch_id] => 1511253371
+    [nonce_str] => dlyp1jgr4p0pa8bjzl0n54fd1ha80ts3
+    [openid] => orJ6Z5WsDIrkPmictUiilizk3L1w
+    [out_trade_no] => 201910301618181523
+    [result_code] => SUCCESS
+    [return_code] => SUCCESS
+    [sign] => 2FC85C2287C7A7A46BCCAB5E96A1D3B7
+    [time_end] => 20191030161819
+    [total_fee] => 1
+    [trade_type] => JSAPI
+    [transaction_id] => 4200000405201910303350627084
+)
+

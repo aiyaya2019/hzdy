@@ -1,0 +1,52 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">签到记录</div>
+
+
+
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-autowidth"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table','form'],function(){
+        var table = layui.table;
+        var form = layui.form;
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+            field.page = 1;
+            //执行重载
+            table.reload('test-table-autowidth', {
+                where: field
+            });
+        });
+
+        table.render({
+            elem: '#test-table-autowidth',
+            url:"{:url('User/sign')}",
+            method:'post',
+            response:{
+                statusCode:200
+            },
+            page:{
+                layout:['prev','page','next','skip','count']
+            },
+            where:{id:"{:input('id')}"},
+            limit:20,
+            cols:[[
+                {field:'id',title:'编号',width:'7%'},
+                {field:'point',title:'积分'},
+                {field:'add_time',title:'签到时间'},
+            ]]
+        })
+    })
+</script>

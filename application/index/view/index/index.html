@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>欧派活动</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/style.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/index.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/mask.css">
+	<link rel="stylesheet" type="text/css" href="__LAYUI__/layui/css/layui.css">
+</head>
+<body>
+	<div class="content" style="display: none">
+		<div class="head"><img src="__HOME_IMG__/index_top.png" alt=""></div>
+		<ul>
+		<foreach name="goods" item="vo">
+			<li>
+				<div class="goods"><img src="{$vo.pic}" alt=""></div>
+				<div class="info">
+					<div>
+						<p class="goods_title">{$vo.title}</p>
+						<p class="money">
+							<span class="icon">￥</span>
+							<span class="price">{$vo.price}</span>
+							<del class="old_price">￥{$vo.old_price}</del>
+						</p>
+						<p class="time">活动中:<span class="end_time">15天7时58分</span></p>
+					</div>
+				<if condition="$subscribe eq 1">
+					<if condition="in_array($vo.id,$goods_id)">
+						<a class="botton" style="line-height: 3.5rem;" href="{:url('index/info',array('id'=>$vo.id))}">
+							<p>已领取</p>
+						</a>
+					<else/>
+						<a class="botton" href="{:url('index/info',array('id'=>$vo.id))}">
+							<p style="margin-top:20%">聚好运</p>
+							<p>0元领</p>
+						</a>
+					</if>
+				<else/>
+					<a class="botton masks">
+						<p style="margin-top:20%">聚好运</p>
+						<p>0元领</p>
+					</a>
+				</if>
+				</div>
+			</li>
+		</foreach>
+		</ul>
+		<div style="margin-top:-12.5%"><img src="__HOME_IMG__/footers.png" alt="" style="width:100%"></div>
+	</div>
+	
+	<!-- 页面加载 -->
+	<div class="body">
+		<img src="__HOME_IMG__/index.png" alt="" class="back">
+		<div class="loading">
+			<img src="__HOME_IMG__/load.png" alt="" class="layui-anim layui-anim-rotate layui-anim-loop">
+			<p class="text">好运连年</p>
+		</div>
+		<div class="img_botton">
+			<img src="__HOME_IMG__/button.png" alt="" >
+		</div>
+	</div>
+
+	<!-- 关注公众号弹窗 -->
+	<div class="mask" style="display:none">
+		<div style="position: relative;width:75%;margin:0 auto">
+			<p><img class="weix" src="__HOME_IMG__/weix.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt=""></p>
+		</div>
+	</div>
+
+	<!-- 暂停活动 -->
+	<!-- <div class="mask" id="mask" style="display:none;background:rgba(53, 53, 53,0.9)">
+		<div style="position: relative;width:75%;margin:0 auto">
+			<p style="color:#fff;font-size:1rem">欧派新春活动由于参与人数过多，商品已经全部被抢完啦！为了让大家继续获得福利，准备了全新的商品作为礼物，活动将在三天后开启，敬请期待！</p>
+		</div>
+	</div> -->
+</body>
+<script src="__LAYUI__/layui/layui.js"></script>
+<script src="__HOME_JS__/jquery.js"></script>
+<script>
+	$(function(){
+		setTimeout(function () { 
+        	$('.body').hide();
+        	$('.content').show();
+        	$('#mask').show();
+    	},2000);
+	})
+
+	$('.masks').click(function(){
+		$('.mask').show();
+	});
+
+	$('.del').click(function(){
+		$('.mask').hide();
+	})
+
+	//倒计时
+	layui.use('util',function(){
+		var util = layui.util;
+		var endTime = parseInt("{$end_time}") //假设为结束日期
+		var serverTime = parseInt("{$time}"); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
+		util.countdown(endTime, serverTime, function(date, serverTime, timer){
+			var strs = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
+			var str = date[0] + '天' + date[1] + '时' +  date[2] + '分';
+			// console.log(strs);
+			$('.end_time').html(str);
+		    //layui.$('#test').html('距离2099年1月1日还有：'+ str);
+		});
+	})
+</script>
+</html>

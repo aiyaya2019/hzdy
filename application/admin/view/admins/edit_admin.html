@@ -1,0 +1,81 @@
+<!-- 引入头部 -->
+<include file='common/meta' />
+
+<body>
+    <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+        <input type="hidden" name="id" class="id" value="{:input('id')}" />
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员昵称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" value="{$adminInfo.name}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input"> 
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录账号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="admin_user" value="{$adminInfo.admin_user}" lay-verify="required" placeholder="请输入登录账号" autocomplete="off" class="layui-input"> 
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" value="" <if condition="!$id">lay-verify="required"</if> placeholder="请输入密码" autocomplete="off" class="layui-input"> 
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+            </div>
+      </div>
+    </div>
+    
+</body>
+<script>
+var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+layui.use('form', function(){
+    var form = layui.form;
+    //各种基于事件的操作，下面会有进一步介绍
+    form.on('submit(LAY-user-back-submit)', function(data){
+        var check_val = inputVal();
+        $.ajax({
+            url:"{:url('Admins/editAdmin')}",
+            type:'post',
+            data:{
+                id:$('.id').val(),
+                name:$('input[name=name]').val(),
+                admin_user:$('input[name=admin_user]').val(),
+                password:$('input[name=password]').val(),
+                rid:check_val,
+            },
+            dataType:'json',
+            success:function(data){
+                if(data.code == 200){
+                    $('.name').val('');
+                    $('input[name=rid]').removeAttr('checked');
+                    parent.refresh();
+                    setTimeout("parent.layer.close(index);", 1500);
+                }
+                layer.msg(data.msg, {icon: data.status, time: 2000});
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试', {icon: 2, time: 2000});
+            }
+        })
+    });
+    return false;
+});
+
+//获取选中的权限ID
+function inputVal(){
+    var obj = $('input[name=rid]');
+    check_val = [];
+    for(k in obj){
+        if(obj[k].checked)
+            check_val.push(obj[k].value);
+    }
+    return check_val;
+}
+</script>
+</html>

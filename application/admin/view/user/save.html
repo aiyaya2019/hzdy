@@ -1,0 +1,126 @@
+<include file='common/meta' />
+<style>
+    .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;border:1px solid #eee;}
+    .spec{float:right;width:80%;margin: 0 5px 10px 3px}
+    .remove{width:4% !important;margin:10px 0 0 0;color:#FF5722;cursor:pointer;}
+    .removes{color:#FF5722;cursor:pointer;}
+    .layui-input-inline{margin-right:2px !important;}
+    .layui-unselect{float:left;}
+    .pane{width:13% !important;}
+</style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="id" id="goods_id" value="{:input('id')}">
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="{$user.nickname}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员头像</label>
+                     <!-- <div class="layui-input-block layui-upload">
+                      <button type="button" class="layui-btn layui-btn-normal file" id="test1"><i class="layui-icon"></i>上传封面</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file" id="test1s">
+                        <span class="layui-inline layui-upload-choose">支持 png、jpg、jpeg 格式文件</span>
+                    </div>-->
+                     <div class="layui-input-block" style="margin-top:5px">
+                        <img style="width:70px" id="img" src="{$user.head_img}" alt="">
+                    </div>
+                </div>
+
+
+                  <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-block">
+                            <input type="text"  value="{$user.sex_name}" autocomplete="off" disabled="disabled" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">城市</label>
+                        <div class="layui-input-block">
+                            <input type="text"  value="{$user.province}/{$user.city}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">会员ID</label>
+                        <div class="layui-input-block">
+                            <input type="number"  value="{$user.number}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">等级</label>
+                        <div class="layui-input-block">
+                            <select name="grade_id" id="" lay-verify="required" lay-search>
+                                <option value="">请选择会员等级</option>
+                                <foreach name="grade" item="vo">
+                                 <option value="{$vo.id}" <if condition="$user.grade_id eq $vo.id">selected</if>>{$vo.title}</option>
+                               </foreach>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                     <div class="layui-form-item">
+                            <label class="layui-form-label">积分</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="point" value="{$user.point}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                            </div>
+                     </div>
+
+                     <div class="layui-form-item">
+                        <label class="layui-form-label">余额</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="money" value="{$user.money}" lay-verify="required"  autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">生日</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="birthday" value="{$user.birthday}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+
+                      <div class="layui-form-item">
+                        <label class="layui-form-label">收货地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="address" value="{$user.address}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+
+                     <div class="layui-form-item">
+                        <label class="layui-form-label">注册时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" value="{$user.add_time}" lay-verify="required" disabled="disabled" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                        </div>
+                    </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />
+<script>
+
+    //表单上传
+    fromUpload('form',"{:url('User/save')}");
+
+
+</script>

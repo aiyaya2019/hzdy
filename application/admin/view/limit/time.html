@@ -1,0 +1,84 @@
+<include file='common/meta' />
+<style>
+    .layui-table-cell{  /*最后的pic为字段的field*/
+      height: 100%;
+      max-width: 100%;
+    } 
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">时间段</div>
+
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-autowidth"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table','form'],function(){
+        var table = layui.table;
+        var form = layui.form;
+        var url = "{:url('Limit/time')}";
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+            field.page = 1;
+            //执行重载
+            table.reload('test-table-autowidth', {
+                where: field
+            });
+        });
+
+        table.render({
+            elem: '#test-table-autowidth',
+            url:url,
+            method:'post',
+            response:{
+                statusCode:200
+            },
+            page:{
+                layout:['prev','page','next','skip','count']
+            },
+            limit:20,
+            toolbar:'#add',
+            defaultToolbar:false,
+            cols:[[
+                {field:'id',title:'编号',width:'4%'},
+                {field:'start_time',title:'开始时间'},
+                {field:'end_time',title:'结束时间'},
+                {field:'goods_num',title:'活动商品数'},
+                {title:'活动状态',align:'center',templet:function(d){
+                    var status = d.status.status;
+                    var name = d.status.status_name;
+                    if(status == 1){
+                        return '<button class="layui-btn layui-btn-xs layui-btn-normal">'+name+'</button>';
+                    } else if(status == 2){
+                        return '<button class="layui-btn layui-btn-xs">'+name+'</button>';
+                    } else {
+                        return '<button class="layui-btn layui-btn-xs layui-btn-danger">'+name+'</button>';
+                    }
+                }},
+                {field:'add_time',title:'发布时间'},
+                {
+                    title:'操作',
+                    toolbar:'#barDemo'
+                }
+            ]]
+        })
+    })
+</script>
+
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs open" width="50%" height="60%" url="{:url('Limit/time_save')}?id={{d.id}}">编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit" href="{:url('Limit/index')}?time_id={{d.id}}">查看商品</a>
+  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs delete" data-table="limit_time" data-id="{{d.id}}" lay-event="del">删除</a> -->
+</script>
+
+<!-- <script type="text/html" id="add">
+  <a class="layui-btn layui-btn-xs open" width="50%" height="50%" url="{:url('Limit/time_save')}">增加时间段</a>
+</script> -->

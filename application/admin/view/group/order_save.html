@@ -1,0 +1,135 @@
+<include file='common/meta' />
+
+<style>
+
+    .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;border:1px solid #eee;}
+
+    .spec{float:right;width:80%;margin: 0 5px 10px 3px}
+
+    .remove{width:4% !important;margin:10px 0 0 0;color:#FF5722;cursor:pointer;}
+
+    .removes{color:#FF5722;cursor:pointer;}
+
+    .layui-input-inline{margin-right:2px !important;}
+
+    .layui-unselect{float:left;}
+
+    .pane{width:13% !important;}
+
+</style>
+
+<div class="layui-fluid">
+
+    <div class="layui-card">
+
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+
+            <form action="" class="layui-form">
+
+                <input type="hidden" name="id" value="{:input('id')}">
+
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label">省</label>
+
+                    <div class="layui-input-block">
+
+                        <input type="text" name="province" value="{$data.province}" lay-verify="required" autocomplete="off" placeholder="请输入省" class="layui-input">
+
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">市</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="city" value="{$data.city}" lay-verify="required" autocomplete="off" placeholder="请输入市" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">区</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="area" value="{$data.area}" lay-verify="required" autocomplete="off" placeholder="请输入区" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">详细地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="address" value="{$data.address}" lay-verify="required" autocomplete="off" placeholder="请输入详细地址" class="layui-input">
+                    </div>
+                </div>
+                <if condition="$data['status'] == 1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">订单价格</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pay_money" value="{$data.pay_money}" lay-verify="required" autocomplete="off" placeholder="请输入订单价格" class="layui-input">
+                        </div>
+                    </div>
+                </if>
+
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label"></label>
+
+                    <div class="layui-input-inline">
+
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+
+                        <!-- <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button> -->
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // layui.use(['upload','laydate','form'],function(){
+
+    //     var upload = layui.upload;
+
+    //     var form = layui.form;
+
+
+
+    //     //封面上传
+
+    //     upload.render({
+
+    //         elem: '#test1',
+
+    //         auto: false,
+
+    //         field:'icon',
+
+    //         //,multiple: true
+
+    //         bindAction: '#test1s',
+
+    //         done: function(res){
+
+    //             console.log(res)
+
+    //         }
+
+    //     });
+
+
+
+    // });
+
+
+
+    //表单上传
+
+    fromUpload('form',"{:url('Group/order_save')}");
+
+</script>

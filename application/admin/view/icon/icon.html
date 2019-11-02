@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>图标库</title>
+
+    <!-- 引入css和js文件 需要在底部引入 否则可能导致某些功能无法正常使用-->
+
+    <include file="common/meta" />
+
+</head>
+
+<style>
+
+/* 这段样式只是用于演示 */
+
+#LAY-component-grid-list .demo-list .layui-card{height: auto;}
+
+.icon{display: flex;flex-wrap:wrap;}
+
+.icon li{ width:20%;}
+
+.icon li:hover{background:#ccc;cursor:pointer;}
+
+#LAY_app_body{ left:0; }
+
+</style>
+
+<body>
+
+    <div class="layui-body" id="LAY_app_body">
+
+        <div class="layadmin-tabsbody-item layui-show">
+
+            <div class="layui-card layadmin-header">
+
+                <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+
+                    <a lay-href="">主页</a>
+
+                    <span lay-separator="">/</span>
+
+                    <a><cite>图标库</cite></a>
+
+                    <span lay-separator="">/</span>
+
+                    <a><cite>图标列表</cite></a>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="layui-fluid" id="LAY-component-grid-list">
+
+                <div class="layui-row layui-col-space10 demo-list">
+
+                    <div class="layui-col-sm4 layui-col-md3 layui-col-lg12">
+
+                        <div class="layui-card" style="text-align: center;">
+
+                            <!-- 填充内容 -->
+
+                            <ul class="icon">
+
+                                
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+<script type="text/javascript" src="__LAYUI__/icon.json"></script>
+
+<script type="text/javascript">
+
+    var str = '';
+
+    $(icon).each(function(key,val){
+
+        str += '<li>';
+
+         str += '<i style="font-size:4rem;display:block;padding: 10px 0" class="iconfont '+val.class+'"></i>';
+
+        str += '<p style="padding:0 0 10px 0">'+val.title+'</p>';
+
+        str += '<p style="padding:0 0 10px 0">'+val.class+'</p>';
+
+        str += '</li>';
+
+    });
+
+
+
+    $('.icon').html(str);
+
+</script>
+
+<script>
+
+layui.use('layer', function(){
+
+  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+  
+
+  $('.icon li').click(function(){
+
+    //传值到父页面的ic方法
+
+    parent.ic($(this).find('p:eq(1)').html());
+
+    parent.layer.close(index);
+
+  })
+
+})
+
+</script>

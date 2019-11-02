@@ -1,0 +1,61 @@
+<include file='common/meta' />
+<style>
+    .layui-table-cell{  /*最后的pic为字段的field*/
+      height: 100%;
+      max-width: 100%;
+    } 
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">专区商品</div>
+
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-autowidth"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table','form'],function(){
+        var table = layui.table;
+        var form = layui.form;
+        var url = "{:url('Zone/zone_goods')}";
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+            field.page = 1;
+            //执行重载
+            table.reload('test-table-autowidth', {
+                where: field
+            });
+        });
+
+        table.render({
+            elem: '#test-table-autowidth',
+            url:url,
+            method:'post',
+            response:{
+                statusCode:200
+            },
+            page:{
+                layout:['prev','page','next','skip','count']
+            },
+            limit:20,
+            where:{id:"{:input('id')}"},
+            defaultToolbar:false,
+            cols:[[
+                {field:'id',title:'编号',width:'5%'},
+                {title:'商品信息',templet:function(d){
+                    return '<img src="'+d.pic+'" style="width:40px;margin-right:5px" alt="" />'+d.title;
+                }},
+                {title:'价格',templet:function(d){
+                    return '￥'+d.money_range.min;
+                }},
+            ]]
+        })
+    })
+</script>

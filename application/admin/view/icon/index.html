@@ -1,0 +1,54 @@
+<include file='common/meta' />
+<style>
+/* 这段样式只是用于演示 */
+#LAY-component-grid-list .demo-list .layui-card{height: auto;}
+.icon{display: flex;flex-wrap:wrap;}
+.icon li{ width:14%;}
+</style>
+
+<div class="layadmin-tabsbody-item layui-show">
+    <div class="layui-card layadmin-header">
+        <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+            <a lay-href="">主页</a>
+            <span lay-separator="">/</span>
+            <a><cite>图标库</cite></a>
+            <span lay-separator="">/</span>
+            <a><cite>图标列表</cite></a>
+        </div>
+    </div>
+    <div class="layui-fluid" id="LAY-component-grid-list">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <p>阿里巴巴矢量图标库 使用示例：<span style="color:#000;">{:htmlspecialchars('<i class="iconfont icon-xxx"></i>')}</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-fluid" id="LAY-component-grid-list">
+        <div class="layui-row layui-col-space10 demo-list">
+            <div class="layui-col-sm4 layui-col-md3 layui-col-lg12">
+                <div class="layui-card" style="text-align: center;">
+                    <!-- 填充内容 -->
+                    <ul class="icon">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__LAYUI__/icon.json"></script>
+<script type="text/javascript">
+    console.log(icon);
+    var str = '';
+    $(icon).each(function(key,val){
+        str += '<li>';
+        str += '<i style="font-size:4rem;display:block;padding: 10px 0" class="iconfont '+val.class+'"></i>';
+        str += '<p style="padding:0 0 10px 0">'+val.title+'</p>';
+        str += '<p style="padding:0 0 10px 0">'+val.class+'</p>';
+        str += '</li>';
+    });
+
+    $('.icon').html(str);
+</script>

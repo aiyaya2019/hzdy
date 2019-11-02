@@ -1,0 +1,37 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="id" value="1">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">推广规则</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入推广规则" lay-verify="required" name="rule" class="layui-textarea edit">{$list.rule}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file='common/edit' />
+<script>
+    //表单上传
+    fromUpload('form',"{:url('User/rule')}");
+
+    $('.edit').editable({
+        inlineMode: false,
+        alwaysBlank: true,
+        language: "zh_cn",
+        imageUploadURL:"{:url('common/fileUpload')}"
+    })
+</script>

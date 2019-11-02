@@ -1,0 +1,98 @@
+<!-- 引入头部 -->
+<include file='common/meta' />
+
+<div class="layadmin-tabsbody-item layui-show">
+	<div class="layui-card layadmin-header">
+	 	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+	    	<a lay-href="">主页</a>
+	    	<a><cite>用户</cite></a>
+	    	<a><cite>角色管理</cite></a>
+	  	</div>
+	</div>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+			<form action="">
+			    <input type="hidden"  name="id" value="{:input('id')}" />
+                <input type="hidden"  name="pid" value="{:input('pid')}" />
+                <input type="hidden"  name="type" value="{:input('type')}" />
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">*名称</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="title" value="{$node.title}" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input"> 
+			        </div>
+			    </div>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">*方法名</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="url" value="{$node.url}" lay-verify="required" placeholder="请输入方法名" autocomplete="off" class="layui-input"> 
+			        </div>
+			    </div>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">*参数</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="parameter" value="{$node.parameter}" placeholder="请输入参数，示例： id=1&type=2" autocomplete="off" class="layui-input"> 
+			        </div>
+			    </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" value="{$node.sort}" lay-verify="required|number" placeholder="排序 越大越靠前" autocomplete="off" class="layui-input"> 
+                    </div>
+                </div>
+			    <div class="layui-form-item">
+		            <label class="layui-form-label">加入菜单</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" <if condition="$node['is_nav'] eq 1">checked</if> name="is_nav" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="ON|OFF">
+                        <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch"><em>ON</em><i></i></div>
+                    </div>
+		        </div>
+		    </form>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label"></label>
+			        <div class="layui-input-inline">
+			            <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+			            <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+			        </div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+	form.on('submit(LAY-user-back-submit)', function(data){
+		//序列化表单
+		var d = {};
+		 var t = $('form').serializeArray();
+		 $.each(t, function(){
+		   d[this.name] = this.value;
+		 });
+		 console.log(JSON.stringify(d));
+		$.ajax({
+            url:"{:url('Admins/addMethod')}",
+            type:'post',
+            data:{ 
+            	data:JSON.stringify(d)
+            },
+            dataType:'json',
+            success:function(data){
+                if(data.code == 200){
+                    layer.msg(data.msg, {icon: 1, time: 1000},function(){
+                    	window.history.go(-1);
+                    });
+                } else {
+                	layer.msg(data.msg, {icon: 2, time: 3000});
+                }
+                
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试', {icon: 2, time: 2000});
+            }
+        })
+	});
+});
+</script>
+

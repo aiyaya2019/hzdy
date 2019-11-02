@@ -1,0 +1,34 @@
+<include file='common/meta' />
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="id" value="{:input('id')}">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">优惠券</label>
+                    <div class="layui-input-block">
+                        <select name="coupon_id" id="" lay-verify="required" lay-search>
+                            <option value="">优惠券</option>
+                            <foreach name="coupon" item="vo">
+                                <option value="{$vo.id}">满￥{$vo.full_price}减￥{$vo.less_price}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    //表单上传
+    fromUpload('form',"{:url('User/grant_coupon')}");
+</script>

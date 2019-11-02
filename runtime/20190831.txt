@@ -1,0 +1,26 @@
+Array
+(
+    [appkey] => f5c0590c77cc46529b336d29debf6c0a
+    [bizcontent] => {"SendType":"JH_01","LogisticName":"顺风","LogisticType":"JH_001","LogisticNo":"WR6685851555","PlatOrderNo":"TS04594434433","IsSplit":"0","ShopType":"JH_001","SenderName":"张三","SenderTel":"15047788954","SenderAddress":"上海 上海市 宝山区 逸仙路2816号华滋奔腾大厦A栋14楼","IsHwgFlag":"1","DeliveryType":"JH_01"}
+    [method] => Differ.JH.Business.Send
+    [token] => 5839ad824e1849bd9b8e1059f008b84a
+    [sign] => 8ec0cfd90fa03f24280da9fc2792d247
+)
+
+5839ad824e1849bd9b8e1059f008b84a
+Array
+(
+    [SendType] => JH_01
+    [LogisticName] => 顺风
+    [LogisticType] => JH_001
+    [LogisticNo] => WR6685851555
+    [PlatOrderNo] => TS04594434433
+    [IsSplit] => 0
+    [ShopType] => JH_001
+    [SenderName] => 张三
+    [SenderTel] => 15047788954
+    [SenderAddress] => 上海 上海市 宝山区 逸仙路2816号华滋奔腾大厦A栋14楼
+    [IsHwgFlag] => 1
+    [DeliveryType] => JH_01
+)
+

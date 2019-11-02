@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商品详情</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/style.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/info.css">
+	<link rel="stylesheet" type="text/css" href="__HOME_CSS__/mask.css">
+	<link rel="stylesheet" type="text/css" href="__LAYUI__/layui/css/layui.css">
+	<style>
+		.index{
+			position: fixed;
+			bottom:8%;
+			right:5%;
+			background:#e21527;
+			width:2.2rem;
+			height:2.2rem;
+			line-height:2.2rem;
+			text-align:center;
+			border-radius:100%;
+		}
+		.index a{font-size:14px;}
+	</style>
+</head>
+<body>
+	<div class="head" id="top">
+		<img src="__HOME_IMG__/info_top.png" alt="">
+	</div>
+
+	<div class="headimg">
+		<div class="img">
+			<img src="{$userinfo.head_img}" alt="">
+		</div>
+		<div class="time">
+			<span class="end_time" style="margin-left:10px">15天7时59分</span> 后结束
+		</div>
+		<div class="rule">活动规则</div>
+	</div>
+
+	<div class="goods">
+		<div class="goods_center">
+			<div class="pic">
+				<img src="{$goods.pic}" alt="">
+			</div>
+			<div class="num">
+				<p>库存：<span style="color:#b52f37">{$goods.stock}</span> 件</p>
+				<p><span style="color:#b52f37">{$part + $init[$goods['id']]}</span>人正在参加</p>
+			</div>
+			<div class="schedule">
+				<div style="font-size:12px;width:{$perc>20 ? $perc : 20}%;text-align:right">已聚运{$perc}%</div>
+				<div class="layui-progress layui-progress-big" style="background:#af0e1c;height: 2rem;line-height:2rem;text-align:center;color:#d9a6a8;overflow: hidden;">
+					<!-- 好运进度条 -->
+  					<div class="layui-progress-bar" style="width:{$perc}%;background:url('__HOME_IMG__/b.png');height: 2rem;line-height:2rem;overflow: hidden;">
+  						<!-- <span class="layui-progress-text" style="color:#000">已聚运{$perc}%</span> -->
+  					</div>
+				</div>
+			</div>
+			<div class="botton">
+
+			<if condition="$type eq 2">
+				<if condition="$partinfo.status eq 2">
+					<if condition="$goods.stock gt 0">
+						<botton class="receive" style="background:#a10714;width:45%"><a style="color:#ffecbd;">立刻领取</a></botton>
+					<else/>
+						<botton style="background:#a10714;width:45%" onclick="alert('物品已经被抢光了，每天早上11点添加库存，敬请留意！')"><a style="color:#ffecbd;">立刻领取</a></botton>
+					</if>
+				<elseif condition="$partinfo.status eq 3"/>
+					<botton class="" style="background:#a10714;width:45%"><a style="color:#ffecbd;">已领取</a></botton>
+				<else/>
+					<if condition="$check">
+					<botton class="disabled">自己聚好运</botton>
+					<else/>
+						<botton class="point">自己聚好运</botton>
+					</if>
+					<botton class="luck">找人聚好运</botton>
+				</if>
+			<else/>
+				<if condition="$subscribe eq 1">
+					<botton class="old_point" style="width:50%">帮Ta聚运</botton>
+				<else/>
+					<botton class="gzhs" style="width:50%">帮Ta聚运</botton>
+				</if>
+			</if>
+
+			</div>
+			<div class="list">
+				<div class="title">
+					<span>助力聚运记录</span>
+					<span>好运值</span>
+				</div>
+				<ul class="reco">
+				<if condition="!empty($reco)">
+					<foreach name="reco" item="vo">
+						<li>
+							<img src="{$vo.user.head_img}" alt="">
+							<div style="margin-left:5px;flex-grow:15;">
+								{$vo.user.nickname|str_cut=###,0,10}
+								<p style="font-size:0.8rem">{$vo.add_time}</p>
+							</div>
+							<div style="flex-grow:1;line-height: 3rem">
+								聚运数：{$vo.point}
+							</div>
+						</li>
+					</foreach>
+				<else/>
+					<li style="border:none;text-align:center">
+						暂无好友助力，快去邀请好友吧！
+					</li>
+				</if>
+				</ul>
+				<input type="hidden" value="{$partinfo.id}" id="part_id">
+			</div>
+		</div>
+	</div>
+
+	<div class="goods_info">
+		<img src="__HOME_IMG__/goods_info.png" alt="" style="width:100%">
+		<div class="center">
+			{$goods.content}
+		</div>
+	</div>
+
+	<div class="footer">
+		<a href="#top"><img src="__HOME_IMG__/add.png" alt="" class="add"></a>
+	</div>
+
+	<!-- //返回首页 -->
+	<div class="index"><a href="{:url('index/index')}" style="color:#fff">首页</a></div>
+	
+	<!-- 活动规则 -->
+	<div class="mask rules" style="display: none">
+		<div style="position: relative;width:75%;margin:0 auto">
+			<p><img class="weix" src="__HOME_IMG__/rule.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt="" style="top:-2%"></p>
+		</div>
+	</div>
+
+	<!-- 自己聚好运弹窗 -->
+	<div class="mask points" style="display: none">
+		<div style="position: relative;width:75%;margin:0 auto;text-align:center;">
+			<p><img class="weix" src="__HOME_IMG__/point.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt="" style="top:2%;right:2%"></p>
+			<p class="point_num">+<span class="point_nums">18.89</span>好运值</p>
+			<p class="ps">PS:每天都能为自己聚运一次喔</p>
+			<div class="share luck">找人聚好运</div>
+		</div>
+	</div>
+
+	<!-- 分享弹窗 -->
+	<div class="mask shares del" style="display: none">
+		<div style="position: absolute;top:3%;right:12%;text-align:right">
+			<p><img class="weix" src="__HOME_IMG__/share.png" alt="" style="width:60%"></p>
+			<p><img class="weix" src="{$goods.share_pic}" alt="" style="width:60%;margin-right:35%;margin-top:-5%"></p>
+		</div>
+	</div>
+
+	<!-- 帮助好友弹窗 -->
+	<div class="mask old_points" style="display: none">
+		<div style="position: relative;width:75%;margin:0 auto;text-align:center;">
+			<p><img class="weix" src="__HOME_IMG__/points.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt="" style="top:2%;right:2%"></p>
+			<p class="point_num point_nums" style="top:36%;left:-34%;font-size:1.4rem">18.89</p>
+			<div class="share" style="top:78%"><a href="{:url('index/index')}" style="color:#ffc95e">我也要免费领</a></div>
+		</div>
+	</div>
+
+	<!-- 关注公众号弹窗 -->
+	<div class="mask gzh" style="display:none">
+		<div style="position: relative;width:75%;margin:0 auto">
+			<p><img class="weix" src="__HOME_IMG__/weix.png" alt=""></p>
+			<p><img  class="del" src="__HOME_IMG__/del.png" alt=""></p>
+		</div>
+	</div>
+</body>
+
+<script src="__LAYUI__/layui/layui.js"></script>
+<script src="__HOME_JS__/jquery.js"></script>
+<script src="__LAYUI__/common.js"></script>
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+	wx.config({
+	    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	    appId: "{$share.APPID}", // 必填，公众号的唯一标识
+	    timestamp: "{$share.time}", // 必填，生成签名的时间戳
+	    nonceStr: "{$share.nonceStr}", // 必填，生成签名的随机串
+	    signature: "{$share.sign}",// 必填，签名
+	    jsApiList: [
+	    	'updateAppMessageShareData',
+	    	'updateTimelineShareData',
+	    	'onMenuShareTimeline',
+	    	'onMenuShareAppMessage'
+	    ] // 必填，需要使用的JS接口列表
+	});
+	wx.ready(function(){
+		wx.updateAppMessageShareData({ 
+	        title: "{$share.title}", // 分享标题
+	        desc: "{$share.text}", // 分享描述
+	        link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	        imgUrl: "{$share.imgUrl}", // 分享图标
+	        success: function () {
+	          // 设置成功
+	        }
+		}),
+		wx.updateTimelineShareData({ 
+	        title: "{$share.title}", // 分享标题
+	        link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	        imgUrl: "{$share.imgUrl}", // 分享图标
+	        success: function () {
+	          // 设置成功
+	        }
+		}),
+		wx.onMenuShareTimeline({
+			title: "{$share.title}", // 分享标题
+			link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: "{$share.imgUrl}", // 分享图标
+		    success: function () {
+
+		    }
+		}),
+		wx.onMenuShareAppMessage({
+			title: "{$share.title}", // 分享标题
+			desc: "{$share.text}", // 分享描述
+			link: "{$share.url}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: "{$share.imgUrl}", // 分享图标
+			type: 'link', // 分享类型,music、video或link，不填默认为link
+			dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			success: function () {
+			// 用户点击了分享后执行的回调函数
+			}
+		})
+	});
+</script>
+<script>
+	var layer;
+	var refresh = false;
+	//倒计时
+	layui.use(['util','element','layer'],function(){
+		var element = layui.element;
+		var util = layui.util;
+			layer = layui.layer;
+		var endTime = parseInt("{$end_time}") //假设为结束日期
+		var serverTime = parseInt("{$time}"); //假设为当前服务器时间，这里采用的是本地时间，实际使用一般是取服务端的
+		   
+		util.countdown(endTime, serverTime, function(date, serverTime, timer){
+			var strs = date[0] + '天' + date[1] + '时' +  date[2] + '分' + date[3] + '秒';
+			var str = date[0] + '天' + date[1] + '时' +  date[2] + '分';
+			// console.log(strs);
+			$('.end_time').html(str);
+		    //layui.$('#test').html('距离2099年1月1日还有：'+ str);
+		});
+	})
+
+	//立刻领取
+	$('.receive').one('click',function(){
+		var url = "{:url('index/receive',array('part_id'=>$partinfo.id))}";
+		var urls = "{:url('index/receives')}";
+		var data = {
+			goods_id:"{$goods.id}",
+		}
+		get_request(urls,data,function(data){
+			if(data.code == 200){
+				window.location.href = url;
+			} else {
+				alert(data.msg);
+			}
+		});
+	})
+
+	//规则弹窗
+	$('.rule').click(function(){
+		$('.rules').show();
+	})
+
+	//聚运弹窗
+	$('.point').one('click',function(){
+		var url="{:url('Index/point')}";
+		var part_id = $('#part_id').val();
+		get_request(url,{part:part_id,goods_id:"{:input('id')}"},function(data){
+			if(data.code == 200){
+				$('.point_nums').html(data.data);
+				$('.points').show();
+				refresh = true;
+			} else {
+				layer.msg(data.msg);
+			}
+		});
+	});
+
+	//分享弹窗
+	$('.luck').click(function(){
+		$('.mask').hide();
+		$('.shares').show();
+	})
+
+	//帮助弹窗
+	$('.old_point').one('click',function(){
+		var url="{:url('Index/point')}";
+		var part_id = $('#part_id').val();
+		get_request(url,{part:part_id,goods_id:"{:input('id')}"},function(data){
+			if(data.code == 200){
+				$('.point_nums').html(data.data);
+				$('.old_points').show();
+				refresh = true;
+			} else {
+				layer.msg(data.msg);
+			}
+		});
+	})
+	
+	//关注公众号弹窗
+	$('.gzhs').click(function(){
+		$('.mask').hide();
+		$('.gzh').show();
+	})
+	
+	//隐藏弹窗
+	$('.del').click(function(){
+		$('.mask').hide();
+		if(refresh == true){
+			location.reload();
+		}
+	})
+</script>
+</html>

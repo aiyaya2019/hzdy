@@ -1,0 +1,68 @@
+<!-- 引入头部 -->
+<include file='common/meta' />
+
+<div class="layadmin-tabsbody-item layui-show">
+	<div class="layui-card layadmin-header">
+	 	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+	    	<a lay-href="">主页</a>
+	    	<a><cite>用户</cite></a>
+	    	<a><cite>角色管理</cite></a>
+	  	</div>
+	</div>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+			    <input type="hidden" name="id" class="id" value="{:input('id')}" />
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">角色昵称</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="name" value="{$data.name}" lay-verify="required" placeholder="请输入角色昵称" autocomplete="off" class="layui-input name"> 
+			        </div>
+			    </div>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">角色描述</label>
+			        <div class="layui-input-block">
+			            <textarea type="text" name="desc" placeholder="请输入角色描述" lay-verify="required" autocomplete="off" class="layui-textarea desc">{$data.desc}</textarea>
+			        </div>
+			    </div>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label"></label>
+			        <div class="layui-input-inline">
+			            <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+			            <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+			        </div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+	form.on('submit(LAY-user-back-submit)', function(data){
+		$.ajax({
+            url:"{:url('Admins/addRole')}",
+            type:'post',
+            data:{
+                id:$('.id').val(),
+                name:$('.name').val(),
+                desc:$('.desc').val(),
+            },
+            dataType:'json',
+            success:function(data){
+                if(data.code == 200 && data.data == 'add'){
+                    $('.name').val(''),
+                    $('.desc').val('')
+                }
+                layer.msg(data.msg);
+            },
+            error:function(){
+                layer.msg('网络错误，请稍后再试');
+            }
+        });
+	});
+	return false;
+});
+</script>
+

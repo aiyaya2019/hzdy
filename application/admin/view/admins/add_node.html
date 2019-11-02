@@ -1,0 +1,111 @@
+<!-- 引入头部 -->
+<include file='common/meta' />
+
+<style>
+    .icon{background:#1E9FFF;float:left;}
+    .upform{margin:2rem 0 2rem 0;}
+</style>
+
+<div class="layadmin-tabsbody-item layui-show">
+	<div class="layui-card layadmin-header">
+	 	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+	    	<a lay-href="">主页</a>
+	    	<a><cite>用户</cite></a>
+	    	<a><cite>角色管理</cite></a>
+	  	</div>
+	</div>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+			    <input type="hidden" name="id" class="id" value="{:input('id')}" />
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">*名称</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="title" value="{$node.title}" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input title"> 
+			        </div>
+			    </div>
+			    <div class="layui-form-item">
+			        <label class="layui-form-label">*控制器</label>
+			        <div class="layui-input-block">
+			            <input type="text" name="url" value="{$node.url}" lay-verify="required" placeholder="请输入控制器" autocomplete="off" class="layui-input url"> 
+			        </div>
+			    </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" value="{$node.sort|default=0}" lay-verify="required" placeholder="排序 越大越靠前" autocomplete="off" class="layui-input sort"> 
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图标</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn icon" onclick="icons()"><i class="layui-icon"></i> 点击选择</button>
+                        <i class="iconfont {$node.icon}" id="icon" style="font-size:35px;float:left;margin-left:10px"></i>
+                        <input type="hidden" name="icon" value="">
+                    </div>
+                </div>
+			    <div class="layui-form-item upform">
+			        <label class="layui-form-label"></label>
+			        <div class="layui-input-inline">
+			            <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+			            <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+			        </div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+    	form.on('submit(LAY-user-back-submit)', function(data){
+    		$.ajax({
+                url:"{:url('Admins/addNode')}",
+                type:'post',
+                data:{
+                    id:$('.id').val(),
+                    title:$('.title').val(),
+                    url:$('.url').val(),
+                    sort:$('.sort').val(),
+                    icon:$("input[name='icon']").val(),
+                },
+                dataType:'json',
+                success:function(data){
+                    if(data.code == 200 ){
+                    	layer.msg(data.msg, { icon:1,time:1000 },function(){
+                            window.history.go(-1);
+                        });
+                    } else {
+                    	layer.msg(data.msg, { icon:2,time:3000 });
+                    }
+                },
+                error:function(){
+                    layer.msg('网络错误，请稍后再试');
+                }
+            });
+    	});
+    });
+
+    //选择图标
+    function icons(){
+        layer.open({
+            type: 2,
+            title: '选择图标',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['700px', '600px'],
+            content: "{:url('icon/icon')}"
+        });
+    }
+
+    //选择图标回调
+    function ic(txt)
+    {   
+        $('#icon').removeClass();
+        $('#icon').addClass('iconfont '+txt);
+        $('input[name="icon"]').val(txt);
+    }
+</script>
+

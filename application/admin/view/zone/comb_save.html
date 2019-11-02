@@ -1,0 +1,69 @@
+<include file='common/meta' />
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form" lay-filter="layuiadmin-form-admin" style="padding: 20px 30px 1px 0;">
+            <form action="" class="layui-form">
+                <input type="hidden" name="skin_id" value="{:input('skin_id')}">
+                <input type="hidden" name="id" value="{:input('id')}">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">推荐产品</label>
+                    <div class="layui-input-block">
+                        <select name="goods_id" id="" lay-search>
+                            <option value="">--请选择商品或输入搜索--</option>
+                        <foreach name="goods" item="vo">
+                            <option value="{$vo.id}" <if condition="$list.goods_id eq $vo.id">selected</if>>{$vo.title}</option>
+                        </foreach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">推荐组合</label>
+                    <div class="layui-input-block">
+                        <select name="old_goods_id" id="" lay-search>
+                            <option value="">--请选择商品或输入搜索--</option>
+                        <foreach name="goods" item="vo">
+                            <option value="{$vo.id}" <if condition="$list.old_goods_id eq $vo.id">selected</if>>{$vo.title}</option>
+                        </foreach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">针对人群</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="crowd" value="{$list.crowd}" lay-verify="required" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">组合描述</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" lay-verify="required" name="desc" class="layui-textarea edit">{$list.desc}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" value="{$list.sort}" lay-verify="required|number" autocomplete="off" placeholder="请输入内容，数字越大越靠前" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="button" lay-submit id="transmit" lay-filter="LAY-user-back-submit" value="确认" class="layui-btn">
+                        <button type="reset" class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    //表单上传
+    fromUpload('form',"{:url('Zone/comb_save')}");
+</script>

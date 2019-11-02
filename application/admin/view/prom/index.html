@@ -1,0 +1,79 @@
+<include file='common/meta' />
+<style>
+    .layui-table-cell{  /*最后的pic为字段的field*/
+      height: 100%;
+      max-width: 100%;
+    } 
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">满减活动</div>
+
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-autowidth"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table','form'],function(){
+        var table = layui.table;
+        var form = layui.form;
+        var url = "{:url('Prom/index')}";
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+            field.page = 1;
+            //执行重载
+            table.reload('test-table-autowidth', {
+                where: field
+            });
+        });
+
+        table.render({
+            elem: '#test-table-autowidth',
+            url:url,
+            method:'post',
+            response:{
+                statusCode:200
+            },
+            page:{
+                layout:['prev','page','next','skip','count']
+            },
+            limit:20,
+            toolbar:'#add',
+            defaultToolbar:false,
+            cols:[[
+                {field:'id',title:'编号',width:'4%'},
+                {title:'活动信息',templet:function(d){
+                    return '满 ￥'+d.full_price+'元 减 ￥'+d.less_price+'元';
+                }},
+                {title:'状态',templet:function(d){
+                    if(d.status == 1){
+                        return '<button class="layui-btn layui-btn-sm odd" table="discount" key="status" val="2" data-id="'+d.id+'">生效中</button>';
+                    } else {
+                        return '<button class="layui-btn layui-btn-sm layui-btn-danger odd" table="discount" key="status" val="1" data-id="'+d.id+'">已暂停</button>';
+                    }
+                }},
+                {field:'add_time',title:'发布时间'},
+                {
+                    title:'操作',
+                    toolbar:'#barDemo'
+                }
+            ]]
+        })
+    })
+</script>
+
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit" href="{:url('Prom/save')}?id={{d.id}}">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs delete" data-table="discount" data-id="{{d.id}}" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="add">
+  <a class="layui-btn layui-btn-xs" lay-event="edit" href="{:url('Prom/save')}">发布满减信息</a>
+</script>
